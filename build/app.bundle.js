@@ -9033,9 +9033,27 @@ var _ui = __webpack_require__(330);
 
 document.addEventListener('DOMContentLoaded', getPosts);
 
+document.querySelector('.post-submit').addEventListener('click', addPost);
+
 function getPosts() {
     _http.http.get('http://localhost:3000/posts').then(function (data) {
         return _ui.ui.showPosts(data);
+    }).catch(function (err) {
+        return console.log(err);
+    });
+}
+
+function submitPost() {
+    var title = document.querySelector('#title').value;
+    var body = document.querySelector('#body').value;
+
+    var data = {
+        title: title,
+        body: body
+    };
+
+    _http.http.post('http://localhost:3000/posts', data).then(function (data) {
+        getPosts();
     }).catch(function (err) {
         return console.log(err);
     });
